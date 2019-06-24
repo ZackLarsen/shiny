@@ -8,16 +8,14 @@ server <- function(input, output, session){
     df <- data() # Executing this function gives us the crimes_by_ward.geojson
     # as a SpatialPolygonsDataFrame
     
-    labels <- sprintf(
-      "<strong>Ward #%s</strong><br/> %g arsons committed in this ward",
-      df$ward, df$ARSON
-      ) %>%
-      lapply(htmltools::HTML)
+    # qpal <- reactive({
+    #   colorQuantile(input$colors, df$ARSON %>% unique(), n = 9)
+    # })
     
-    qpal <- colorQuantile("Reds", df$ARSON, n = 10)
-    
+    qpal <- colorQuantile("Reds", df$ARSON %>% unique(), n = 10)
+
     leaflet(df) %>%
-      addTiles(group = "Default") %>%
+      addTiles() %>%
       #addProviderTiles(providers$Stamen.Toner, group = "Toner") %>%
       #addProviderTiles(providers$Stamen.Watercolor, group = "Watercolor") %>% 
       #addProviderTiles(providers$tiles) %>% 
@@ -37,7 +35,7 @@ server <- function(input, output, session){
          )
       ) %>% 
       addLegend(
-        pal = qpal, 
+        pal = qpal(), 
         values = ~ARSON,
         opacity = 0.7, 
         title = "Crime Count Quantile",
@@ -53,12 +51,26 @@ server <- function(input, output, session){
 
 
 
+
+
+
+# labels <- reactive({
+#   sprintf("<strong>Ward #%s</strong><br/> %g arsons committed in this ward",
+#   df$ward, df$input$crime
+#   ) %>%
+#   lapply(htmltools::HTML)
+# })
+
 # label = ~labels,
 # labelOptions = labelOptions(
 #   style = list("font-weight" = "normal", padding = "3px 8px"),
 #   textsize = "15px",
 #   direction = "auto"
 # )
+
+
+
+
 
 #%>% 
 # addLayersControl(
