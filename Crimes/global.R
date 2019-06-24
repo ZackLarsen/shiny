@@ -2,7 +2,7 @@
 library(shiny)
 library(leaflet)
 library(dplyr)
-library(here)
+library(geojsonio)
 
-df <- geojsonio::geojson_read(here("Crimes","ward_boundaries.geojson"),
+df <- geojsonio::geojson_read("ward_boundaries.geojson",
                               what = "sp")

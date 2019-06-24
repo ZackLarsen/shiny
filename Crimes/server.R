@@ -1,4 +1,4 @@
-server <- function(input,output, session){
+server <- function(input, output, session){
   
   data <- reactive({
     x <- df
@@ -16,7 +16,7 @@ server <- function(input,output, session){
     qpal <- colorQuantile("Reds", df$crime_total, n = 10)
     
     leaflet(df) %>%
-      addTiles() %>%
+      addTiles(group = "Default") %>%
       addPolygons(
         fillColor = ~qpal(crime_total),
         weight = 2,
